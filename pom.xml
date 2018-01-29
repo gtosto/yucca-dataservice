@@ -1,0 +1,361 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.csi.yucca.dataservice</groupId>
+	<artifactId>dataservice-root-pom</artifactId>
+	<version>1.0.0-008</version>
+	<packaging>pom</packaging>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+
+		<!-- java version -->
+		<java.version>1.7</java.version>
+
+		<!-- main deps versions -->
+		<dep.hbase.version>1.1.2.2.6.0.3-8</dep.hbase.version>
+		<dep.phoenix.version>4.7.0.2.6.0.3-8</dep.phoenix.version>
+		<dep.solrj.version>5.5.4</dep.solrj.version>
+
+	</properties>
+
+<!-- 
+	<modules>
+		<module>adminapi</module>
+		<module>insertdata-api</module>
+	</modules>
+ -->
+	<dependencies>
+		<!-- we can regard logging as ubiquitous -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.6</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.6</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!--  jee deps -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.0.1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>2.0.1</version>
+				<scope>compile</scope>
+			</dependency>
+			
+			<!-- resteasy missing JEE related deps ??? -->			
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>3.0.2.Final</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxb-provider</artifactId>
+				<version>3.0.2.Final</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>jaxrs-api</artifactId>
+				<version>3.0.2.Final</version>
+				<scope>compile</scope>
+			</dependency>
+			
+			
+			<!-- just phoneix core (no hbase) -->
+			<dependency>
+				<groupId>org.apache.phoenix</groupId>
+				<artifactId>phoenix-core</artifactId>
+				<version>${dep.phoenix.version}</version>
+
+				<exclusions>
+					<exclusion>
+						<artifactId>jdk.tools</artifactId>
+						<groupId>jdk.tools</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>hbase-server</artifactId>
+						<groupId>org.apache.hbase</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>hbase-client</artifactId>
+						<groupId>org.apache.hbase</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>hbase-annotations</artifactId>
+						<groupId>org.apache.hbase</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>hbase-common</artifactId>
+						<groupId>org.apache.hbase</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>hbase-protocol</artifactId>
+						<groupId>org.apache.hbase</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>hadoop-azure</artifactId>
+						<groupId>org.apache.hadoop</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>hadoop-common</artifactId>
+						<groupId>org.apache.hadoop</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>hadoop-mapreduce-client-core</artifactId>
+						<groupId>org.apache.hadoop</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>azure-storage</artifactId>
+						<groupId>com.microsoft.azure</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>netty-all</artifactId>
+						<groupId>io.netty</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- hbase server and client ? -->
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-server</artifactId>
+				<version>${dep.hbase.version}</version>
+
+				<exclusions>
+					<exclusion>
+						<groupId>*</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-client</artifactId>
+				<version>${dep.hbase.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>jdk.tools</artifactId>
+						<groupId>jdk.tools</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>netty</artifactId>
+						<groupId>io.netty</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- solrj api -->
+			<dependency>
+				<groupId>org.apache.solr</groupId>
+				<artifactId>solr-solrj</artifactId>
+				<version>${dep.solrj.version}</version>
+			</dependency>
+
+
+			<!-- http components -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.5.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient-cache</artifactId>
+				<version>4.5.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpmime</artifactId>
+				<version>4.5.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
+				<version>4.4.6</version>
+			</dependency>
+
+
+
+		</dependencies>
+
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<webXml>${webXmlPath}/web.xml</webXml>
+					</configuration>
+				</plugin>
+
+				<!-- configure common sdpprofiles checkouts -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-scm-plugin</artifactId>
+					<version>1.9.5</version>
+					<configuration>
+						<connectionUrl>scm:svn:svn://sdnet-build.sdp.csi.it/SdpPropFiles/trunk</connectionUrl>
+						<connectionType>connection</connectionType>
+					</configuration>
+					<executions>
+						<execution>
+							<id>1</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>checkout</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.19.1</version>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<!-- Project's common repositories -->
+	<repositories>
+
+		<repository>
+			<id>wso2-maven2-repository</id>
+			<url>http://dist.wso2.org/maven2</url>
+		</repository>
+
+		<repository>
+			<id>apache-maven2-repo</id>
+			<name>Apache Maven2 Repository</name>
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+
+		<repository>
+			<id>HDPReleases</id>
+			<name>HDP Releases</name>
+			<url>http://repo.hortonworks.com/content/repositories/releases/</url>
+			<layout>default</layout>
+		</repository>
+
+		<repository>
+			<id>Jetty</id>
+			<name>Jetty HDP Releases</name>
+			<url>http://repo.hortonworks.com/content/repositories/jetty-hadoop/</url>
+		</repository>
+		
+		<!--  required by binary api ??? -->
+		<repository>
+			<id>jboss-maven</id>
+			<url>https://maven.repository.redhat.com/ga/</url>
+		</repository>
+
+		<!-- should we leave this in charge to single modules ? NO, goal is to 
+			use private repo private project repository -->
+		<repository>
+			<id>local-maven-repo</id>
+			<url>file:///${project.basedir}/../../yucca-dataservice/admin-api/target/libs</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<profiles>
+			
+		<profile>
+			<id>ds_default</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>conf</directory>
+						<targetPath>.</targetPath>
+					</resource>
+				</resources>				
+			</build>
+			<properties>
+				<webXmlPath>src/main/webapp/WEB-INF</webXmlPath>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>mongo</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencyManagement>
+				<dependencies>
+					<dependency>
+						<groupId>org.mongodb</groupId>
+						<artifactId>mongo-java-driver</artifactId>
+						<version>2.13.2</version>
+					</dependency>
+				</dependencies>
+			</dependencyManagement>
+		</profile>
+
+	</profiles>
+</project>

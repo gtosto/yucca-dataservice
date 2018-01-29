@@ -2,18 +2,21 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.csi.yucca.dataservice.binaryapi</groupId>
+	<parent>
+		<groupId>org.csi.yucca.dataservice</groupId>
+		<artifactId>dataservice-root-pom</artifactId>
+		<version>1.0.0-008</version>
+	</parent>
+	
+	<groupId>org.csi.yucca.dataservice.binaryapi</groupId>	
 	<artifactId>binaryapi</artifactId>
+	<!-- stuck to old vesion ? -->	
 	<version>1.0.0-001</version>
 	<packaging>war</packaging>
+		
 	<name>binaryapi</name>
-	<scm>
-		<connection>scm:svn:svn://sdnet-build.sdp.csi.it/SdpPropFiles/trunk</connection>
-	</scm>
+	
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 	<build>
 		<plugins>
 			<plugin>
@@ -38,105 +41,76 @@
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>wso2-maven2-repository</id>
-			<url>http://dist.wso2.org/maven2</url>
-		</repository>
-		<repository>
-			<id>jboss-maven</id>
-			<url>https://maven.repository.redhat.com/ga/</url>
-		</repository>
-		<repository>
-			<id>apache-maven2-repo</id>
-			<name>Apache Maven2 Repository</name>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-		<repository>
-			<id>HDPReleases</id>
-			<name>HDP Releases</name>
-			<url>http://repo.hortonworks.com/content/repositories/releases/</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
+	
 	<dependencies>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.8</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<version>3.0.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20151123</version>
-			<scope>test</scope>
-		</dependency>
+		
+		<!-- JEE deps -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
 		</dependency>
+
+
+		<!-- RestEasy -->		
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.0.1</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxb-provider</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.3.1</version>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>jaxrs-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+		</dependency>
+				
+		<!-- Don't we should use the javax.ws.rs artifact ? -->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>jsr311-api</artifactId>
 			<version>1.1.1</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<version>2.3.7.Final-redhat-2</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		
 		<!-- JAXB support -->
 		<dependency>
 			<groupId>net.sf.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 			<version>2.3</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>jaxrs-api</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>compile</scope>
-		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-multipart-provider -->
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>2.13.2</version>
-		</dependency>
+			</dependency>
+		
+<!-- 		
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 			<scope>provided</scope>
 		</dependency>
+ -->		
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
@@ -173,42 +147,62 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient-cache</artifactId>
-			<version>4.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpmime</artifactId>
-			<version>4.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-multipart-provider</artifactId>
-			<version>2.3.7.Final-redhat-2</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
+		
+		<!-- http components -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+<!-- 			<version>4.4.1</version> -->
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-cache</artifactId>
+<!-- 			<version>4.4.1</version> -->
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<!-- <version>4.4.1</version> -->
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+<!-- 			<version>4.4.1</version> -->
+		</dependency>
 
+
+		<!--  Test related deps -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.8</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20151123</version>
+			<scope>test</scope>
+		</dependency>
+		
 	</dependencies>
 	<profiles>
 		<profile>
@@ -238,19 +232,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-scm-plugin</artifactId>
-						<version>1.9.5</version>
-						<configuration>
-							<connectionType>connection</connectionType>
-						</configuration>
-						<executions>
-							<execution>
-								<id>1</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>checkout</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 				<resources>
@@ -279,19 +260,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-scm-plugin</artifactId>
-						<version>1.9.5</version>
-						<configuration>
-							<connectionType>connection</connectionType>
-						</configuration>
-						<executions>
-							<execution>
-								<id>1</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>checkout</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 				<resources>
@@ -315,19 +283,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-scm-plugin</artifactId>
-						<version>1.9.5</version>
-						<configuration>
-							<connectionType>connection</connectionType>
-						</configuration>
-						<executions>
-							<execution>
-								<id>1</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>checkout</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 				<resources>

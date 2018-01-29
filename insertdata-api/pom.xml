@@ -2,28 +2,28 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.csi.yucca.dataservice</groupId>
+		<artifactId>dataservice-root-pom</artifactId>
+		<version>1.0.0-008</version>
+	</parent>
+
 	<groupId>org.csi.yucca.dataservice.insertdataapi</groupId>
 	<artifactId>insertdataapi</artifactId>
-	<version>1.0.0-008</version>
+	<!-- <version>1.0.0-008</version> -->
 	<packaging>war</packaging>
 	<name>insertdataapi</name>
-	<scm>
-		<connection>scm:svn:svn://sdnet-build.sdp.csi.it/SdpPropFiles/trunk</connection>
-	</scm>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 	<build>
 		<plugins>
+
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
 				<configuration>
 					<webXml>${webXmlPath}/web.xml</webXml>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
@@ -34,164 +34,82 @@
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
-		      <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-failsafe-plugin</artifactId>
-		        <version>2.19.1</version>
-		      </plugin>						
+
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>wso2-maven2-repository</id>
-			<url>http://dist.wso2.org/maven2</url>
-		</repository>
-		<repository>
-			<id>apache-maven2-repo</id>
-			<name>Apache Maven2 Repository</name>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-		<repository>
-			<id>HDPReleases</id>
-			<name>HDP Releases</name>
-			<url>http://repo.hortonworks.com/content/repositories/releases/</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>Jetty</id>
-			<name>Jetty HDP Releases</name>
-		<url>http://repo.hortonworks.com/content/repositories/jetty-hadoop/</url>
-		</repository>
-		<repository>
-        	<id>local-maven-repo</id>
-        	<url>file:///${project.basedir}/../../yucca-dataservice/admin-api/target/libs</url>
-    	</repository>
-	</repositories>
+
 	<dependencies>
-		<dependency> 
-		<groupId>org.apache.phoenix</groupId> 
-		<artifactId>phoenix-core</artifactId>
-		<!-- 
-		<version>4.4.0.2.4.2.0-258</version -->
-		<version>4.7.0.2.6.0.3-8</version>
-		
-		<exclusions>
-	        <exclusion>
-	            <artifactId>jdk.tools</artifactId>
-	            <groupId>jdk.tools</groupId>
-	        </exclusion>
-	        <exclusion>
-	            <artifactId>hbase-server</artifactId>
-	            <groupId>org.apache.hbase</groupId>
-	        </exclusion>
-	         <exclusion>
-	            <artifactId>hbase-client</artifactId>
-	            <groupId>org.apache.hbase</groupId>
-	        </exclusion>
-	         <exclusion>
-	            <artifactId>hbase-annotations</artifactId>
-	            <groupId>org.apache.hbase</groupId>
-	        </exclusion>
-	         <exclusion>
-	            <artifactId>hbase-common</artifactId>
-	            <groupId>org.apache.hbase</groupId>
-	        </exclusion>
-	         <exclusion>
-	            <artifactId>hbase-protocol</artifactId>
-	            <groupId>org.apache.hbase</groupId>
-	        </exclusion>
-	         <exclusion>
-	            <artifactId>hadoop-azure</artifactId>
-	            <groupId>org.apache.hadoop</groupId>
-	        </exclusion>
-	          <exclusion>
-	            <artifactId>hadoop-common</artifactId>
-	            <groupId>org.apache.hadoop</groupId>
-	        </exclusion>  <exclusion>
-	            <artifactId>hadoop-mapreduce-client-core</artifactId>
-	            <groupId>org.apache.hadoop</groupId>
-	        </exclusion>
-	      	<exclusion>
-	            <artifactId>azure-storage</artifactId>
-	            <groupId>com.microsoft.azure</groupId>
-	        </exclusion>
-	        <exclusion>
-	        	<artifactId>netty-all</artifactId>
-	        	<groupId>io.netty</groupId>
-	        </exclusion>
-    	</exclusions>
-		 </dependency>
-		 <dependency> 
-			<groupId>org.apache.hbase</groupId> 
+
+		<dependency>
+			<groupId>org.csi.yucca.adminapi</groupId>
+			<artifactId>adminapi</artifactId>
+			<classifier>client</classifier>
+			<!-- <version>${pom.version}</version> -->
+			<version>1.0.0-001</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.phoenix</groupId>
+			<artifactId>phoenix-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-client</artifactId>
-			<!--  <version>1.1.2.2.4.2.0-258</version> -->
-			<version>1.1.2.2.6.0.3-8</version>
-			<exclusions>
-				<exclusion>
-	            	<artifactId>jdk.tools</artifactId>
-	            	<groupId>jdk.tools</groupId>
-	        	</exclusion>
-	         <exclusion>
-	        	<artifactId>netty</artifactId>
-	        	<groupId>io.netty</groupId>
-	        </exclusion>
-			</exclusions>
 		</dependency>
-		<dependency> 
-			<groupId>org.apache.hbase</groupId> 
+
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-server</artifactId>
-			<!--  <version>1.1.2.2.4.2.0-258</version> -->
-			<version>1.1.2.2.6.0.3-8</version>
-			
-			<exclusions>
-		        <exclusion>
-		            <groupId>*</groupId>
-		            <artifactId>*</artifactId>
-		        </exclusion>
-		    </exclusions>
 		</dependency>
+
+
+
+		<!-- JEE deps -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.4.7</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.0.1</version>
-			<scope>compile</scope>
 		</dependency>
+
+
+		<!-- resteasy deps -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>compile</scope>
 		</dependency>
-		<!-- JAXB support -->
+
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxb-provider</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>jaxrs-api</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
 			<version>2.13.2</version>
 		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-			<scope>provided</scope>
-		</dependency>
+
+
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
@@ -201,6 +119,66 @@
 			<groupId>net.minidev</groupId>
 			<artifactId>json-smart</artifactId>
 			<version>1.2</version>
+		</dependency>
+		
+		<!-- <dependency> <groupId>org.apache.phoenix</groupId> <artifactId>phoenix-server-client</artifactId> 
+			<version>4.4.0.2.4.2.0-258</version> </dependency> -->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-client</artifactId>
+			<version>5.9.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-pool</artifactId>
+			<version>5.9.1</version>
+		</dependency>
+
+
+		<!-- Test scoped deps -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20151123</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -220,102 +198,6 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.apache.phoenix</groupId>
-			<artifactId>phoenix-server-client</artifactId>
-			<version>4.4.0.2.4.2.0-258</version>
-		</dependency>
-		 -->
-		<dependency>
-			<groupId>org.apache.solr</groupId>
-			<artifactId>solr-solrj</artifactId>
-			
-			<!--   <version>5.2.1</version> -->
-			<version>5.5.4</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-		</dependency>
-<!-- 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.3.5</version>
-		</dependency>  
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient-cache</artifactId>
-			<version>4.3.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpmime</artifactId>
-			<version>4.3.5</version>
-		</dependency>
-		-->
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient-cache</artifactId>
-			<version>4.5.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.4.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpmime</artifactId>
-			<version>4.5.2</version>
-		</dependency>
-		
-		
-		
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-collections4</artifactId>
-			<version>4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.5.6</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.6</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-client</artifactId>
-			<version>5.9.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-pool</artifactId>
-			<version>5.9.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20151123</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
@@ -328,19 +210,8 @@
 			<version>3.0.0</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>javax.mail-api</artifactId>
-			<version>1.4.7</version>
-			<scope>provided</scope>
-		</dependency>
-				<dependency>
-		    <groupId>org.csi.yucca.adminapi</groupId>
-			<artifactId>adminapi</artifactId>
-			<classifier>client</classifier>
-			<version>1.0.0-001</version>
-		    <scope>compile</scope>
-			</dependency>
+
+
 	</dependencies>
 	<profiles>
 		<profile>
@@ -363,6 +234,7 @@
 				<webXmlPath>src/main/resources/local</webXmlPath>
 			</properties>
 		</profile>
+
 		<profile>
 			<id>int</id>
 			<build>
@@ -370,19 +242,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-scm-plugin</artifactId>
-						<version>1.9.5</version>
-						<configuration>
-							<connectionType>connection</connectionType>
-						</configuration>
-						<executions>
-							<execution>
-								<id>1</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>checkout</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 				<resources>
@@ -394,18 +253,18 @@
 						<targetPath>.</targetPath>
 					</resource>
 				</resources>
-					<testResources>
-						<testResource>
-							<directory>${project.build.directory}/checkout/insertdataapi/test/int</directory>
-						</testResource>
-					</testResources>
+				<testResources>
+					<testResource>
+						<directory>${project.build.directory}/checkout/insertdataapi/test/int</directory>
+					</testResource>
+				</testResources>
 			</build>
 			<properties>
 				<webXmlPath>${project.build.directory}/checkout/insertdataapi/resources/int/</webXmlPath>
 			</properties>
 		</profile>
-		
-		
+
+
 		<profile>
 			<id>pochdp</id>
 			<build>
@@ -413,19 +272,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-scm-plugin</artifactId>
-						<version>1.9.5</version>
-						<configuration>
-							<connectionType>connection</connectionType>
-						</configuration>
-						<executions>
-							<execution>
-								<id>1</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>checkout</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 				<resources>
@@ -437,18 +283,18 @@
 						<targetPath>.</targetPath>
 					</resource>
 				</resources>
-					<testResources>
-						<testResource>
-							<directory>${project.build.directory}/checkout/insertdataapi/test/pochdp</directory>
-						</testResource>
-					</testResources>
+				<testResources>
+					<testResource>
+						<directory>${project.build.directory}/checkout/insertdataapi/test/pochdp</directory>
+					</testResource>
+				</testResources>
 			</build>
 			<properties>
 				<webXmlPath>${project.build.directory}/checkout/insertdataapi/resources/pochdp/</webXmlPath>
 			</properties>
-		</profile>		
-		
-		
+		</profile>
+
+
 		<profile>
 			<id>prod</id>
 			<build>
@@ -456,19 +302,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-scm-plugin</artifactId>
-						<version>1.9.5</version>
-						<configuration>
-							<connectionType>connection</connectionType>
-						</configuration>
-						<executions>
-							<execution>
-								<id>1</id>
-								<phase>validate</phase>
-								<goals>
-									<goal>checkout</goal>
-								</goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 				<resources>
