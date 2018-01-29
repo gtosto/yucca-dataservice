@@ -1,149 +1,229 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+	
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.csi.yucca.dataservice</groupId>
+		<artifactId>dataservice-root-pom</artifactId>
+		<version>1.0.0-008</version>		
+	</parent>
+	
 	<groupId>org.csi.yucca.storage.metadataapi</groupId>
 	<artifactId>metadataapi</artifactId>
-	<version>1.0.0-003</version>
+	<version>1.11.0-001</version>
 	<packaging>war</packaging>
 	<name>metadataapi</name>
-	<scm>
-    	<connection>scm:svn:svn://sdnet-build.sdp.csi.it/SdpPropFiles/trunk</connection>
-  	</scm>
-  	
+	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
 				<configuration>
 					<webXml>${webXmlPath}/web.xml</webXml>
+					<webResources>
+						<resource>
+							<directory>${project.build.directory}/generated-sources</directory>
+							<includes>
+								<include>**/*.html</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>2.2.2 </version>
+				<executions>
+					<execution>
+						<id>api-v01</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>src/main/swagger/v01/yaml/swagger.yaml</inputSpec>
+							<language>html2</language>
+							<output>${project.build.directory}/generated-sources/docs/api/v01</output>
+							<configOptions>
+								<!-- <sourceFolder>src/gen/html2/main</sourceFolder> -->
+							</configOptions>
+						</configuration>
+					</execution>
+					<execution>
+						<id>api-v02</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>src/main/swagger/v02/yaml/swagger.yaml</inputSpec>
+							<language>html2</language>
+							<output>${project.build.directory}/generated-sources/docs/api/v02</output>
+							<configOptions>
+							</configOptions>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<basedir>${project.build.directory}/generated-sources/docs/api/</basedir>
+					<includes>
+						<include>v01/index.html</include>
+						<include>v02/index.html</include>
+					</includes>
+					<replacements>
+						<replacement>
+							<token>&lt;/head&gt;</token>
+							<value>&lt;link
+								rel="shortcut icon"
+								href="/metadataapi/favicon.png"&gt;&lt;link
+								rel="stylesheet"
+								type="text/css"
+								href="/metadataapi/style/swagger.css"&gt;&lt;/head&gt;</value>
+						</replacement>
+					</replacements>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>wso2-maven2-repository</id>
-			<url>http://dist.wso2.org/maven2</url>
-		</repository>
-		<repository>
-			<id>apache-maven2-repo</id>
-			<name>Apache Maven2 Repository</name>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-	</repositories>
+		
 	<dependencies>
+		<!-- <dependency> <groupId>org.apache.jena</groupId> <artifactId>jena-core</artifactId> 
+			<version>2.13.0</version> </dependency> <dependency> <groupId>org.apache.jena</groupId> 
+			<artifactId>jena-arq</artifactId> <version>2.13.0</version> </dependency> -->
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>apache-jena-libs</artifactId>
+			<type>pom</type>
+			<version>2.13.0</version>
+
+		</dependency>
+		
+		<!--  JEE and resteasy deps -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.0.1</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>compile</scope>
 		</dependency>
 		<!-- JAXB support -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxb-provider</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>jaxrs-api</artifactId>
-			<version>3.0.2.Final</version>
-			<scope>compile</scope>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.mongodb</groupId> <artifactId>mongo-java-driver</artifactId> 
-			<version>2.13.2</version> </dependency> -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-			<scope>provided</scope>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.3</version>
 			<scope>compile</scope>
 		</dependency>
-		<!-- <dependency> <groupId>commons-fileupload</groupId> <artifactId>commons-fileupload</artifactId> 
-			<version>1.3.1</version> </dependency> <dependency> <groupId>net.sf.opencsv</groupId> 
-			<artifactId>opencsv</artifactId> <version>2.0</version> </dependency> -->
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.3.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient-cache</artifactId>
-			<version>4.3.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
-			<version>4.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
-			<version>4.3.5</version>
 		</dependency>
+
 		<!-- <dependency> <groupId>org.twitter4j</groupId> <artifactId>twitter4j-core</artifactId> 
 			<version>[4.0,)</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20151123</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+		<!-- Test related deps -->
+		
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.8</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
+			<scope>test</scope>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-codegen-maven-plugin 
 		<dependency>
-			<groupId>org.wso2.carbon</groupId>
-			<artifactId>org.wso2.carbon.identity.oauth.stub</artifactId>
-			<version>4.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.wso2.carbon</groupId>
-			<artifactId>org.wso2.carbon.identity.oauth.stub</artifactId>
-			<version>4.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.wso2.carbon</groupId>
-			<artifactId>org.wso2.carbon.apimgt.keymgt.stub</artifactId>
-			<version>4.2.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.wso2.securevault</groupId>
-			<artifactId>org.wso2.securevault</artifactId>
-			<version>1.0.0</version>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-codegen-maven-plugin</artifactId>
+			<version>2.2.2</version>
 			<exclusions>
 				<exclusion>
-					<artifactId>commons-codec</artifactId>
-					<groupId>commons-codec</groupId>
+					<artifactId>jackson-databind</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.maven-replacer-plugin</groupId>
+			<artifactId>replacer</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
 		</dependency>
 	</dependencies>
 	<profiles>
@@ -170,25 +250,25 @@
 		<profile>
 			<id>int</id>
 			<build>
-				  <plugins>
+				<plugins>
 					<plugin>
-			        <groupId>org.apache.maven.plugins</groupId>
-			        <artifactId>maven-scm-plugin</artifactId>
-			        <version>1.9.5</version>
-			        <configuration>
-			          <connectionType>connection</connectionType>
-			        </configuration>
-			        <executions>
-			        	<execution>
-			        		<id>1</id>
-			        		<phase>validate</phase>
-				            <goals>
-				              <goal>checkout</goal>
-				            </goals>
-				          </execution>
-				    </executions>
-			      	</plugin>			
-				  </plugins>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-plugin</artifactId>
+						<version>1.9.5</version>
+						<configuration>
+							<connectionType>connection</connectionType>
+						</configuration>
+						<executions>
+							<execution>
+								<id>1</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>checkout</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
 				<resources>
 					<resource>
 						<directory>${project.build.directory}/checkout/matadataapi/resources/int</directory>
@@ -198,33 +278,79 @@
 						<targetPath>.</targetPath>
 					</resource>
 				</resources>
+				<testResources>
+					<testResource>
+						<directory>${project.build.directory}/checkout/matadataapi/test/integ</directory>
+					</testResource>
+				</testResources>
 			</build>
 			<properties>
 				<webXmlPath>${project.build.directory}/checkout/matadataapi/resources/int/</webXmlPath>
 			</properties>
 		</profile>
 		<profile>
+			<id>pochdp</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-plugin</artifactId>
+						<version>1.9.5</version>
+						<configuration>
+							<connectionType>connection</connectionType>
+						</configuration>
+						<executions>
+							<execution>
+								<id>1</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>checkout</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+				<resources>
+					<resource>
+						<directory>${project.build.directory}/checkout/matadataapi/resources/pochdp</directory>
+					</resource>
+					<resource>
+						<directory>conf</directory>
+						<targetPath>.</targetPath>
+					</resource>
+				</resources>
+				<testResources>
+					<testResource>
+						<directory>${project.build.directory}/checkout/matadataapi/test/pochdp</directory>
+					</testResource>
+				</testResources>
+			</build>
+			<properties>
+				<webXmlPath>${project.build.directory}/checkout/matadataapi/resources/pochdp/</webXmlPath>
+			</properties>
+		</profile>
+		<profile>
 			<id>prod</id>
 			<build>
-				  <plugins>
+				<plugins>
 					<plugin>
-			        <groupId>org.apache.maven.plugins</groupId>
-			        <artifactId>maven-scm-plugin</artifactId>
-			        <version>1.9.5</version>
-			        <configuration>
-			          <connectionType>connection</connectionType>
-			        </configuration>
-			        <executions>
-			        	<execution>
-			        		<id>1</id>
-			        		<phase>validate</phase>
-				            <goals>
-				              <goal>checkout</goal>
-				            </goals>
-				          </execution>
-				    </executions>
-			      	</plugin>			
-				  </plugins>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-plugin</artifactId>
+						<version>1.9.5</version>
+						<configuration>
+							<connectionType>connection</connectionType>
+						</configuration>
+						<executions>
+							<execution>
+								<id>1</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>checkout</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
 				<resources>
 					<resource>
 						<directory>${project.build.directory}/checkout/matadataapi/resources/prod</directory>
