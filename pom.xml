@@ -16,10 +16,13 @@
 		<java.version>1.7</java.version>
 
 		<!-- main deps versions -->
-		<dep.hbase.version>1.1.2.2.6.0.3-8</dep.hbase.version>
-		<dep.phoenix.version>4.7.0.2.6.0.3-8</dep.phoenix.version>
-		<dep.solrj.version>5.5.4</dep.solrj.version>
+		<version.hbase>1.1.2.2.6.0.3-8</version.hbase>
+		<version.phoenix>4.7.0.2.6.0.3-8</version.phoenix>
+		<version.solrj>5.5.4</version.solrj>
 
+		
+		<version.slf4j>1.5.6</version.slf4j><!--  should we upgrade to 1.7 ?  -->
+		<version.log4j>1.2.17</version.log4j>
 	</properties>
 
 <!-- 
@@ -33,21 +36,21 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.5.6</version>
+			<version>${version.slf4j}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.6</version>
+			<version>${version.slf4j}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+			<version>${version.log4j}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -101,7 +104,7 @@
 			<dependency>
 				<groupId>org.apache.phoenix</groupId>
 				<artifactId>phoenix-core</artifactId>
-				<version>${dep.phoenix.version}</version>
+				<version>${version.phoenix}</version>
 
 				<exclusions>
 					<exclusion>
@@ -155,7 +158,7 @@
 			<dependency>
 				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-server</artifactId>
-				<version>${dep.hbase.version}</version>
+				<version>${version.hbase}</version>
 
 				<exclusions>
 					<exclusion>
@@ -168,7 +171,7 @@
 			<dependency>
 				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-client</artifactId>
-				<version>${dep.hbase.version}</version>
+				<version>${version.hbase}</version>
 				<exclusions>
 					<exclusion>
 						<artifactId>jdk.tools</artifactId>
@@ -185,7 +188,7 @@
 			<dependency>
 				<groupId>org.apache.solr</groupId>
 				<artifactId>solr-solrj</artifactId>
-				<version>${dep.solrj.version}</version>
+				<version>${version.solrj}</version>
 			</dependency>
 
 
@@ -210,8 +213,6 @@
 				<artifactId>httpcore</artifactId>
 				<version>4.4.6</version>
 			</dependency>
-
-
 
 		</dependencies>
 
@@ -323,6 +324,7 @@
 		<profile>
 			<id>ds_default</id>
 			<activation>
+				<!--  al moemnto disattivato in attesa di capire come usarlo al meglio  -->
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<build>
@@ -343,6 +345,7 @@
 		
 		<profile>
 			<id>mongo</id>
+			<!-- utile per rimovere le dipendenze di mongo dai moduli ???  -->
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
